@@ -19,28 +19,28 @@
         <div class="container">
     <nav class="navbar navbar-expand-lg  navig">
         <div class="container-fluid" >
-          <a class="navbar-brand paddi" href="#"><img class ="c1" src="{% static 'assets/images/logos.png' %}">&nbsp;&nbsp;<b>pdCare</b></a>
+          <a class="navbar-brand paddi" href="#"><img class ="c1" src="{% static 'assets/images/logos.png' %}">&nbsp;&nbsp;</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent" >
-            <ul class="navbar-nav mx-auto fw-semibold gap-3">
+            <ul class="navbar-nav mx-auto fw-semibold gap-3 navitem" >
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Services</a>
+                <a class="nav-link active" aria-current="page" href="#service">Services</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">About us</a>
+                <a class="nav-link active" aria-current="page" href="#park">About</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Contact us</a>
+                <a class="nav-link active" aria-current="page" href="#contact">Contact us</a>
               </li>
               </ul>
               
-            <div class="navbar-nav ms-auto">
-              <a href="/signin" style="text-decoration: none; color: white;"><button class="btn btn-outline-primary logbut " type="submit">&nbsp;&nbsp;&nbsp;&nbsp;<b>Login</b>&nbsp;&nbsp;&nbsp;&nbsp;</button></a>
+            <div class="navbar-nav ms-auto logincss" >
+              <a href="/signin" style="text-decoration: none; color: white;"><button class="btn btn-outline-primary logbut " type="submit" style="font-size: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;<b>Login</b>&nbsp;&nbsp;&nbsp;&nbsp;</button></a>
             </div>
           </div>
         </div>
@@ -58,7 +58,7 @@
                 <br>
                 <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis, totam natus non placeat labore delectus dignissimos vitae ullam deserunt nam id sed laborum quas dicta officiis libero! Obcaecati, ratione corporis.</p>
                 <div class="logins">
-                  <a href="/signup" style="text-decoration: none; color: white;"><button class="btn btn-outline-primary logbut " type="submit">&nbsp;&nbsp;&nbsp;&nbsp;<b>Get Started</b>&nbsp;&nbsp;&nbsp;&nbsp;</button></a>
+                  <a href="/signup" style="text-decoration: none; color: white;"><button class="btn btn-outline-primary logbut " type="submit" style="font-size: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;<b>Get Started</b>&nbsp;&nbsp;&nbsp;&nbsp;</button></a>
                 
             </div>
             </div>
@@ -68,11 +68,14 @@
                 </div>
             </section>
             <br>
-            <h3 class="myfont" style="text-align: center;"><b>More about our Website</b></h3>
+            
+            <br>
+            <h3 class="myfont" id="service" style="text-align: center;"><b><h5>Services</h5><br>More about our Website</b></h3>
             <br>
             <section class="sec2">
-              <div class="row">
-                <div class="col">
+              <div class="cardz alignh">
+              <div class="row alighn">
+                <div class="col cardcss ">
                   <div class="card" style="width: 18rem;">
                     <div class="card-body">
                       <h5 class="card-title alignh"><img src="{% static 'assets/images/signature.png' %}" class="imgc"></h5><br>
@@ -83,7 +86,7 @@
                   </div>
                 </div>
                 <br>
-                <div class="col">
+                <div class="col cardcss">
                   <div class="card" style="width: 18rem;">
                     <div class="card-body">
                       <h5 class="card-title alignh"><img src="{% static 'assets/images/voice.png' %}" class="imgc"></h5><br>
@@ -94,7 +97,7 @@
                   </div>
                 </div>
                 <br>
-                <div class="col">
+                <div class="col cardcss">
                   <div class="card" style="width: 18rem;">
                     <div class="card-body">
                       <h5 class="card-title alignh"><img src="{% static 'assets/images/detection.png' %}" class="imgc"></h5><br>
@@ -105,8 +108,8 @@
                   </div>
                 </div>
                 <br>
-                <div class="col">
-                  <div class="card" style="width: 18rem;">
+                <div class="col cardcss">
+                  <div class="card"  style="width: 18rem;">
                     <div class="card-body">
                       <h5 class="card-title alignh"><img src="{% static 'assets/images/stethoscope (1).png' %}" class="imgc"></h5><br>
                       <h6 class="card-subtitle mb-2 text-body-secondary alignh">For Doctors</h6>
@@ -117,9 +120,10 @@
                 </div>
                 <br>
               </div>
+              </div>
             </section>
             <br><br>
-            <section class="sec5 myfont">
+            <section class="sec5 myfont" id="park">
               <div class="box">
                 <div class="hello">
                 <h1 class="inc">What is parkinson's disease?</h1>
@@ -153,7 +157,13 @@
                   
 
             </section>
+            
+            <br><br><br>
         </main>
+        <footer id="contact" style="padding-top:80px;size:20px;background-color:#00337C; color:white;width:100%;height: 200px;text-align: center;">
+          <h2>contact us: dla@gmail.com</h2>
+        </footer>
+
             
 
 
