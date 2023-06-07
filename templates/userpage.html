@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +10,7 @@
 
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href="{% static 'assets/css/style2.css' %}">
-    <link rel='stylesheet' href="style.css">
+    <link rel='stylesheet' href="{% static 'assets/css/style.css' %}">
     <script src='main.js'></script>
 </head>
 <body>
@@ -55,7 +57,17 @@
               </ul>
               
             <div class="navbar-nav ms-auto">
-              <h4><b>John</b></h4>
+              <h4><b><li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  John
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">settings</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="logout">Logout</a></li>
+                </ul>
+              </li></b></h4>
             </div>
           </div>
         </div>
