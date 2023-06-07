@@ -4,11 +4,29 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Profile
+from .models import Profile,Uploads
 
 # Create your views here.
 def index(request):
     return render(request,'index.html')
+
+@login_required(login_url='signin')
+def userpage(request):
+    user_profile = Profile.objects.get(user=request.user)
+    return render(request,'userpage.html',{'user_profile':user_profile})
+
+def upload(request):
+    if request.method == 'POST':
+        user=request.user.username
+        image=request.FILES.get('my_image')
+        voice=request.FILES.get('my_voice')
+
+        new_post = Uploads.objects.create(user=user, image=image,voice=voice)
+        new_post.save()
+        return redirect('/record')
+    else:
+        return redirect('/userpage')
+    return HttpResponse('<h1>upload view</h1>')
 
 def signup(request):
     if request.method == 'POST':
@@ -40,6 +58,21 @@ def signup(request):
     else:
         return render(request,'signup.html')
 
+
+def record(request):
+    user_profile=Uploads.objects.filter(user=request.user).order_by('created_at')
+    context={
+        'user_profile':user_profile,
+    }
+
+    
+    return render(request,'record.html',context)
+
+   
+
+def result(request):
+    user_profile = Profile.objects.get(user=request.user)
+    return render(request,'result.html')
 def signin(request):
 
     if request.method=='POST':
@@ -69,9 +102,7 @@ def settings(request):
         return redirect('settings')
     return render(request,'settings.html',{'user_profile':user_profile})
 
-@login_required(login_url='signin')
-def userpage(request):
-    return render(request,'userpage.html')
+
 
 
 
