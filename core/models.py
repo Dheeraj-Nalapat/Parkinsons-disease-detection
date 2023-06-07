@@ -19,10 +19,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
-<<<<<<< HEAD
-class FileUpload(models.Model):
-    file = models.FileField(upload_to='uploads/')    
-=======
+
 class Uploads(models.Model):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4)
     user=models.CharField(max_length=100)
@@ -33,4 +30,4 @@ class Uploads(models.Model):
 
     def __str__(self):
         return self.user
->>>>>>> 3c68e6e0a48f69aad887bd7d1e64651d01ab0276
+
