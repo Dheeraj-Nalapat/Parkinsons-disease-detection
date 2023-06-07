@@ -19,6 +19,7 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+
 class Uploads(models.Model):
     id=models.UUIDField(primary_key=True,default=uuid.uuid4)
     user=models.CharField(max_length=100)
@@ -30,3 +31,4 @@ class Uploads(models.Model):
 
     def __str__(self):
         return self.user
+
