@@ -27,6 +27,7 @@ class Uploads(models.Model):
     desc=models.TextField()
     voice=models.FileField()
     created_at=models.DateTimeField(default=datetime.now)
+    result=models.IntegerField(default=0)
 
     def __str__(self):
         return self.user
