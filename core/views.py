@@ -86,7 +86,7 @@ def signin(request):
             return redirect('/userpage')
         else:
             messages.info(request,'credentials invalid')
-            return redirect('login')
+            return redirect('signin')
     return render(request,'loginpage.html')
 
 @login_required(login_url='signin')
