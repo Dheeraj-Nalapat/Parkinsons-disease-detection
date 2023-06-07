@@ -15,20 +15,33 @@
         <div class="col" >
             <h2 style="text-align: center; font-size: 30px; color:#19376D">Welcome!</h2>
             <h2 style="text-align: center; font-size: 30px; color:#576CBC">Sign in to your Account</h2>
+            <h5 style="text-align: center; font-size: 30px; color:grey">New User? <a href="/signup" style="text-decoration: none; color: grey;">signup</a></h5>
 
-            <form >
-                
+            <div>
+
+              <style>
+                  h5{
+                      color: black;
+                  }
+              </style>
+              {% for message in messages %}
+              <h5>{{message}}</h5>
+              {% endfor %}
+          </div>
+
+            <form action="" method="POST" >
+                {% csrf_token %}
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                     
                   </div>
                 <div class="mb-3">
                   <label for="exampleInputPassword1" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1">
+                  <input type="password" name="password" class="form-control" id="exampleInputPassword1">
                 </div>
                 <h3>Forgot password</h3>
-                <button type="submit" class="btn btn-primary"><a href="userpage.html" style="text-decoration: none; color: black;">Sign In</a></button>
+                <button type="submit" class="btn btn-primary"><a href="/userpage" style="text-decoration: none; color: black;">Sign In</a></button>
               </form>
         </div>
         </div>
