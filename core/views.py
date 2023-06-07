@@ -58,7 +58,16 @@ def signin(request):
 
 @login_required(login_url='signin')
 def settings(request):
-    return render(request,'settings.html')
+    user_profile = Profile.objects.get(user=request.user)
+    if request.method == 'POST':
+        firstname=request.POST['firstname']
+        lastname=request.POST['lastname']
+        email=request.POST['email']
+        age=request.POST['age']
+        gender=request.POST['gender']
+        user_profile.save()
+        return redirect('settings')
+    return render(request,'settings.html',{'user_profile':user_profile})
 
 @login_required(login_url='signin')
 def userpage(request):
