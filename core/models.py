@@ -14,3 +14,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class FileUpload(models.Model):
+    file = models.FileField(upload_to='uploads/')    
