@@ -8,6 +8,10 @@ from .models import Profile
 def index(request):
     return render(request,'index.html')
 
+def login(request):
+    return render(request,'loginpage.html')
+
+
 def signup(request):
     if request.method == 'POST':
         firstname = request.POST['firstname']
