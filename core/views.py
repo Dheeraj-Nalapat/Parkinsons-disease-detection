@@ -2,13 +2,13 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Uploads
 
 import pandas as pd
 
-global image 
+global image
 global voice
 
 # Create your views here.
@@ -25,13 +25,14 @@ def preprocess_voice(request):
     return render(request,'userpage.hmtl')
 
 def preprocess_image(request):
+
     return render(request,'userpage.hmtl')
 
 def svm_prediction(request):
     return render(request,'userpage.hmtl')
 
 def cnn_prediction(request):
-    model = pd.read_pickle(r"")
+    model = pd.read_pickle(r"filepath")
     return render(request,'userpage.hmtl')
 
 def lr_prediction(request):    
