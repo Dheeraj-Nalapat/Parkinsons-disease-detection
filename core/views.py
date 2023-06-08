@@ -6,6 +6,9 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Uploads
 
+global image 
+global voice
+
 # Create your views here.
 def index(request):
     return render(request,'index.html')
@@ -89,6 +92,21 @@ def signin(request):
             return redirect('signin')
     return render(request,'loginpage.html')
 
+def preprocess_voice(request):
+    return render(request,'userpage.hmtl')
+
+def preprocess_image(request):
+    return render(request,'userpage.hmtl')
+
+def svm_prediction(request):
+    return render(request,'userpage.hmtl')
+
+def cnn_prediction(request):
+    return render(request,'userpage.hmtl')
+
+def lr_prediction(request):    
+    return render(request,'userpage.hmtl')
+
 @login_required(login_url='signin')
 def settings(request):
     user_profile = Profile.objects.get(user=request.user)
@@ -110,3 +128,4 @@ def settings(request):
 def logout(request):
     auth.logout(request)
     return redirect('signin')
+
