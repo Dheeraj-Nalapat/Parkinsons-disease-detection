@@ -5,11 +5,15 @@ from django.contrib import messages
 from django.http import HttpResponse,JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Uploads
-
+from tensorflow.keras.models import load_model
 import pandas as pd
+import cv2
+import numpy as np
 
-global image
-global voice
+
+global input_image
+global input_voice
+
 
 # Create your views here.
 def index(request):
@@ -32,7 +36,7 @@ def svm_prediction(request):
     return render(request,'userpage.hmtl')
 
 def cnn_prediction(request):
-    model = pd.read_pickle(r"filepath")
+    cnnModel = load_model('static/assets/models/spiral.h5')
     return render(request,'userpage.hmtl')
 
 def lr_prediction(request):    
@@ -41,11 +45,12 @@ def lr_prediction(request):
 def upload(request):
     if request.method == 'POST':
         user=request.user.username
-        image=request.FILES.get('my_image')
-        voice=request.FILES.get('my_voice')
+        input_image=request.FILES.get('my_image')
+        input_voice=request.FILES.get('my_voice')
 
-        new_post = Uploads.objects.create(user=user, image=image,voice=voice)
+        new_post = Uploads.objects.create(user=user, image=input_image,voice=input_voice)
         new_post.save()
+        return redirect('/record')
 
         #to call all the functions after saving the image and voice to the database
         preprocess_image()
