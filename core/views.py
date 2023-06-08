@@ -5,10 +5,14 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Uploads
+from tensorflow.keras.models import load_model
 import pandas as pd
+import cv2
+import numpy as np
 
-global image 
-global voice
+
+global input_image
+global input_voice
 
 # Create your views here.
 def index(request):
@@ -20,13 +24,30 @@ def userpage(request):
     user_profile = Profile.objects.get(user=request.user)
     return render(request,'userpage.html',{'user_profile':user_profile})
 
+def preprocess_voice(request):
+    return render(request,'userpage.hmtl')
+
+def preprocess_image(request):
+    
+    return render(request,'userpage.hmtl')
+
+def svm_prediction(request):
+    return render(request,'userpage.hmtl')
+
+def cnn_prediction(request):
+    cnnModel = load_model('static/assets/models/spiral.h5')
+    return render(request,'userpage.hmtl')
+
+def lr_prediction(request):    
+    return render(request,'userpage.hmtl')
+
 def upload(request):
     if request.method == 'POST':
         user=request.user.username
-        image=request.FILES.get('my_image')
-        voice=request.FILES.get('my_voice')
+        input_image=request.FILES.get('my_image')
+        input_voice=request.FILES.get('my_voice')
 
-        new_post = Uploads.objects.create(user=user, image=image,voice=voice)
+        new_post = Uploads.objects.create(user=user, image=input_image,voice=input_voice)
         new_post.save()
         return redirect('/record')
 
@@ -104,18 +125,6 @@ def signin(request):
             return redirect('signin')
     return render(request,'loginpage.html')
 
-def preprocess_voice(request):
-    return render(request,'userpage.hmtl')
-
-def preprocess_image(request):
-    
-    return render(request,'userpage.hmtl')
-
-def svm_prediction(request):
-    return render(request,'userpage.hmtl')
-
-def cnn_prediction(request):
-    return render(request,'userpage.hmtl')
 
 
 @login_required(login_url='signin')
