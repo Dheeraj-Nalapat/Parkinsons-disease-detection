@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Uploads
 
+
 global image 
 global voice
 
@@ -26,7 +27,7 @@ def upload(request):
 
         new_post = Uploads.objects.create(user=user, image=image,voice=voice)
         new_post.save()
-        return redirect('/userpage')
+        return redirect('/record')
     else:
         return redirect('/userpage')
     return HttpResponse('<h1>upload view</h1>')
@@ -96,6 +97,7 @@ def preprocess_voice(request):
     return render(request,'userpage.hmtl')
 
 def preprocess_image(request):
+    
     return render(request,'userpage.hmtl')
 
 def svm_prediction(request):
