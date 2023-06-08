@@ -20,10 +20,15 @@ def index(request):
     return render(request,'index.html')
 
 
-@login_required(login_url='signin')
 def userpage(request):
+    try: 
+        user_profile=Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        return HttpResponse('NO PROFILE FOUND')
+
+    user_profile = Profile.objects.get(user=request.user)
     
-    return render(request,'userpage.html')
+    return render(request,'userpage.html', {'userprofile':user_profile})
 
 def preprocess_voice(request):
     return render(request,'userpage.hmtl')
@@ -50,7 +55,7 @@ def upload(request):
 
         new_post = Uploads.objects.create(user=user, image=input_image,voice=input_voice)
         new_post.save()
-        return redirect('/record')
+        return redirect('/result')
 
         #to call all the functions after saving the image and voice to the database
         preprocess_image()
