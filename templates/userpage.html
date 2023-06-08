@@ -173,14 +173,13 @@
   <main>
     
     <section class="mt-2">
-    <h3 class="step1"><b>STEP 1: </b>Upload corresponding files to detect</h3>
+    <h3 class="step1"><b>STEP 2: </b>Upload corresponding files to detect</h3>
     <br><br>
     <form action="upload" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="sect">
-    <div class="row cols">
-        <div class="col">
-            <div class="card" style="width: 18rem;">
+    <div class="cols">
+        
+            <div class="card backgroundc" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title">Card title</h5>
                   <h6 class="card-subtitle mb-2 text-body-secondary">Voice</h6>
@@ -190,9 +189,9 @@
                 </div>
               </div>
             
-        </div>
-        <div class="col">
-            <div class="card" style="width: 18rem;">
+        
+        
+            <div class="card cardcss backgroundc" style="width: 18rem;">
                 <div class="card-body">
                   <h5 class="card-title">Card title</h5>
                   <h6 class="card-subtitle mb-2 text-body-secondary">Handdrawing</h6>
@@ -200,16 +199,17 @@
                   <input type="file" name="my_voice">
                 </div>
               </div>
-            
-        </div>
-    </div>
+            </div>
+        
+    
     </div>
     <br><br>
     <div class="text-center">
-        <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Submit</button>
+        <button type="submit" class="btn btn-primary logbut" data-bs-toggle="modal" data-bs-target="#exampleModal">&nbsp;&nbsp; Submit&nbsp;&nbsp;</button>
       </div>
       </form>
-      </section>
+  
+      <br><br>
       
       </main>
       

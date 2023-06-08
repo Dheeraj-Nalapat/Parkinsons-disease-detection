@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Uploads
 from tensorflow.keras.models import load_model
@@ -13,6 +13,7 @@ import numpy as np
 
 global input_image
 global input_voice
+
 
 # Create your views here.
 def index(request):
@@ -28,7 +29,7 @@ def preprocess_voice(request):
     return render(request,'userpage.hmtl')
 
 def preprocess_image(request):
-    
+
     return render(request,'userpage.hmtl')
 
 def svm_prediction(request):
