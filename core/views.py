@@ -18,8 +18,8 @@ def index(request):
 
 @login_required(login_url='signin')
 def userpage(request):
-    user_profile = Profile.objects.get(user=request.user)
-    return render(request,'userpage.html',{'user_profile':user_profile})
+    
+    return render(request,'userpage.html')
 
 def preprocess_voice(request):
     return render(request,'userpage.hmtl')
