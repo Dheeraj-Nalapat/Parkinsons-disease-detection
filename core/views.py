@@ -26,7 +26,7 @@ def upload(request):
 
         new_post = Uploads.objects.create(user=user, image=image,voice=voice)
         new_post.save()
-        return redirect('/record')
+        return redirect('/userpage')
     else:
         return redirect('/userpage')
     return HttpResponse('<h1>upload view</h1>')
