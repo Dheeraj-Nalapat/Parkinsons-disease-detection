@@ -20,22 +20,6 @@ def userpage(request):
     user_profile = Profile.objects.get(user=request.user)
     return render(request,'userpage.html',{'user_profile':user_profile})
 
-def preprocess_voice(request):
-    return render(request,'userpage.hmtl')
-
-def preprocess_image(request):
-    return render(request,'userpage.hmtl')
-
-def svm_prediction(request):
-    return render(request,'userpage.hmtl')
-
-def cnn_prediction(request):
-    model = pd.read_pickle(r"")
-    return render(request,'userpage.hmtl')
-
-def lr_prediction(request):    
-    return render(request,'userpage.hmtl')
-
 def upload(request):
     if request.method == 'POST':
         user=request.user.username
