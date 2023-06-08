@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Uploads
-
+import pandas as pd
 
 global image 
 global voice
@@ -14,10 +14,27 @@ global voice
 def index(request):
     return render(request,'index.html')
 
+
 @login_required(login_url='signin')
 def userpage(request):
     user_profile = Profile.objects.get(user=request.user)
     return render(request,'userpage.html',{'user_profile':user_profile})
+
+def preprocess_voice(request):
+    return render(request,'userpage.hmtl')
+
+def preprocess_image(request):
+    return render(request,'userpage.hmtl')
+
+def svm_prediction(request):
+    return render(request,'userpage.hmtl')
+
+def cnn_prediction(request):
+    model = pd.read_pickle(r"")
+    return render(request,'userpage.hmtl')
+
+def lr_prediction(request):    
+    return render(request,'userpage.hmtl')
 
 def upload(request):
     if request.method == 'POST':
@@ -28,6 +45,16 @@ def upload(request):
         new_post = Uploads.objects.create(user=user, image=image,voice=voice)
         new_post.save()
         return redirect('/record')
+
+        #to call all the functions after saving the image and voice to the database
+        preprocess_image()
+        preprocess_voice()
+        svm_prediction()
+        cnn_prediction()
+        lr_prediction()
+
+
+        return redirect('/userpage')
     else:
         return redirect('/userpage')
     return HttpResponse('<h1>upload view</h1>')
@@ -106,8 +133,6 @@ def svm_prediction(request):
 def cnn_prediction(request):
     return render(request,'userpage.hmtl')
 
-def lr_prediction(request):    
-    return render(request,'userpage.hmtl')
 
 @login_required(login_url='signin')
 def settings(request):
