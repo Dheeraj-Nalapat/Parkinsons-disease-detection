@@ -2,6 +2,7 @@
     padding:0;
     margin:0;
 }
+
 h1 {
     text-align: center;
 }
@@ -41,7 +42,15 @@ h1 {
 
 
 
-
+.logbut {
+    border-radius: 40px;
+    padding-right: 20px;
+    padding-left: 20px;
+    color:white;
+    border-color: white;
+    font-family: 'Nunito',sans-serif;
+    background-image: linear-gradient(to right,#19376D, #206c9f,#96d4fd);
+}
 .backim {
     background-color: #1b1c48;
     
@@ -52,16 +61,34 @@ h1 {
     width:20px;
 }
 .brain {
+    align-items: center;
     width:310px;
     height:210px;
 }
+
+.inputp {
+    background: linear-gradient(109.6deg, rgb(223, 234, 247) 11.2%, rgb(244, 248, 252) 91.1%);
+    border-radius: 20px;
+    border-bottom-color: #3f3796;
+    border-bottom-width: 3px;
+    border-color: #3A1078;
+}
+
+
 .rightside {
     background:white;
 }
 
 .des {
-    padding-left: 50px;
+    padding-left: 80px;
     align-items: center;
     text-align: left;
 }
 
+@media (min-width:1024px) {
+    .brain {
+        padding-bottom: 10px;
+        width:375px;
+        height:280px;
+    } 
+}
