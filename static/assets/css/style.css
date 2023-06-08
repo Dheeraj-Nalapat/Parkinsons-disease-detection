@@ -1,6 +1,11 @@
 html {
     scroll-behavior: smooth;
 }
+
+footer {
+    background-color:#010b26;
+    color:white;
+}
 .c1 {
     height:130px;
     width:320px;
