@@ -7,11 +7,13 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile,Uploads
 import tensorflow as tf
 from tensorflow.keras.models import load_model
+from sklearn.discriminant_analysis import StandardScaler
 from PIL import Image
 from django.core.files.storage import default_storage
 import pandas as pd
 import cv2
 import numpy as np
+import pickle
 
 
 global input_image
@@ -50,7 +52,24 @@ def cnn_prediction(request):
 
     return render(request,'result.hmtl')
 
-def lr_prediction(request):    
+def lr_prediction(request): 
+    with open('static/assets/models/logistic_regression_model.pkl', 'rb') as file:
+        lr_model = pickle.load(file)
+    cnn_input_lr = '{:.5f}'.format(cnn_output)
+    svm_input_lr = '{:.5f}'.format(svm_output)    
+    new_data = [[cnn_input_lr,svm_input_lr],
+        [0.00246,0],
+        [0.00001,0],
+        [0.00000,0],
+        [0.99980,0],
+        [0.99971,1],
+        [1.00000,1],
+        [1.00000,1]]
+    scaler = StandardScaler()
+    new_data_scaled = scaler.fit_transform(new_data)
+    predictions = lr_model.predict(new_data_scaled)
+    print(predictions[0])
+        
     return render(request,'userpage.hmtl')
 
 def upload(request):
