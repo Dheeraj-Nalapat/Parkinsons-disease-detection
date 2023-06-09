@@ -5,13 +5,16 @@ from django.contrib import messages
 from django.http import HttpResponse,JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Uploads
+import tensorflow as tf
 from tensorflow.keras.models import load_model
+from PIL import Image
+from django.core.files.storage import default_storage
 import pandas as pd
 import cv2
 import numpy as np
 
 
-global input_image
+global image
 global input_voice
 
 
@@ -28,16 +31,19 @@ def userpage(request):
 def preprocess_voice(request):
     return render(request,'userpage.hmtl')
 
-def preprocess_image(request):
-
-    return render(request,'userpage.hmtl')
-
 def svm_prediction(request):
     return render(request,'userpage.hmtl')
 
 def cnn_prediction(request):
     cnnModel = load_model('static/assets/models/spiral.h5')
-    return render(request,'userpage.hmtl')
+    resize = tf.image.resize(image, (256,256))
+    yhat = cnnModel.predict(np.expand_dims(resize/255, 0))
+    if yhat < 0.6: 
+        print(f'Predicted class is Healthy')
+    else:
+        print(f'Predicted class is Parkinson')
+
+    return render(request,'result.hmtl')
 
 def lr_prediction(request):    
     return render(request,'userpage.hmtl')
@@ -53,7 +59,6 @@ def upload(request):
         return redirect('/record')
 
         #to call all the functions after saving the image and voice to the database
-        preprocess_image()
         preprocess_voice()
         svm_prediction()
         cnn_prediction()
