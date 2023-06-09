@@ -14,7 +14,7 @@ import cv2
 import numpy as np
 
 
-global image
+global input_image
 global input_voice
 
 
@@ -41,7 +41,7 @@ def svm_prediction(request):
 
 def cnn_prediction(request):
     cnnModel = load_model('static/assets/models/spiral.h5')
-    resize = tf.image.resize(image, (256,256))
+    resize = tf.image.resize(input_image, (256,256))
     yhat = cnnModel.predict(np.expand_dims(resize/255, 0))
     if yhat < 0.6: 
         print(f'Predicted class is Healthy')
