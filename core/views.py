@@ -42,8 +42,8 @@ def svm_prediction(request):
 def cnn_prediction(request):
     cnnModel = load_model('static/assets/models/spiral.h5')
     resize = tf.image.resize(input_image, (256,256))
-    yhat = cnnModel.predict(np.expand_dims(resize/255, 0))
-    if yhat < 0.6: 
+    cnn_output = cnnModel.predict(np.expand_dims(resize/255, 0))
+    if cnn_output < 0.6: 
         print(f'Predicted class is Healthy')
     else:
         print(f'Predicted class is Parkinson')
