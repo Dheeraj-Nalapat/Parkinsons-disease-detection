@@ -32,27 +32,36 @@ def userpage(request):
         return HttpResponse('NO PROFILE FOUND')
 
     user_profile = Profile.objects.get(user=request.user)
+    cnn_prediction()
     
     return render(request,'userpage.html', {'userprofile':user_profile})
 
-def preprocess_voice(request):
-    return render(request,'userpage.hmtl')
 
-def svm_prediction(request):
-    return render(request,'userpage.hmtl')
+def predict(request):
+    svm_prediction()
+    cnn_prediction()
+    lr_prediction()
+    return render(request,'result.html')
 
-def cnn_prediction(request):
+def svm_prediction():
+    svmModel = pickle.load(open('static/assets/models/svm_model.pkl', 'rb'))
+    
+    return HttpResponse('<h1>svm prediction view</h1>')
+
+def cnn_prediction():
     cnnModel = load_model('static/assets/models/spiral.h5')
     resize = tf.image.resize(input_image, (256,256))
-    cnn_output = cnnModel.predict(np.expand_dims(resize/255, 0))
+    global cnn_output 
+    prediction = cnnModel.predict(np.expand_dims(resize/255, 0))
+    cnn_output = prediction[0][0]
     if cnn_output < 0.6: 
         print(f'Predicted class is Healthy')
     else:
         print(f'Predicted class is Parkinson')
 
-    return render(request,'result.hmtl')
+    return HttpResponse('<h1>cnn prediction view</h1>')
 
-def lr_prediction(request): 
+def lr_prediction(): 
     with open('static/assets/models/logistic_regression_model.pkl', 'rb') as file:
         lr_model = pickle.load(file)
     cnn_input_lr = '{:.5f}'.format(cnn_output)
@@ -70,7 +79,7 @@ def lr_prediction(request):
     predictions = lr_model.predict(new_data_scaled)
     print(predictions[0])
         
-    return render(request,'userpage.hmtl')
+    return HttpResponse('<h1>lr prediction view</h1>')
 
 def upload(request):
     if request.method == 'POST':
