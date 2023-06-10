@@ -38,25 +38,9 @@ def userpage(request):
 def result2(request):
     return render(request,'result2.html')
 
-
-def predict(request):
-    try: 
-        user_profile=Uploads.objects.get(user=request.user)
-    except Profile.DoesNotExist:
-        return HttpResponse('NO PROFILE FOUND')
-    print(user_profile)
-    svmop = svm_prediction(user_profile.voice)
-    cnnop = cnn_prediction(user_profile.image)
-    final_result=lr_prediction(svmop,cnnop)
-    if final_result==0:
-        return render(request,'result2.html',{'result':'You are safe'})
-    else:
-        return render(request,'result.html',{'result':'You are not safe'})
-    return render(request,'result.html')
-
-
 def result(request):
     return render(request,'result.html')
+
 
 def extract_features(signal, sr):
     features = {}
@@ -173,7 +157,20 @@ def lr_prediction(svm_output,cnn_output):
     return predictions[0]
         
 
-
+def predict(request):
+    try: 
+        user_profile=Uploads.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        return HttpResponse('NO PROFILE FOUND')
+    print(user_profile)
+    svmop = svm_prediction(user_profile.voice)
+    cnnop = cnn_prediction(user_profile.image)
+    final_result=lr_prediction(svmop,cnnop)
+    if final_result==0:
+        return render(request,'result2.html',{'result':'You are safe'})
+    else:
+        return render(request,'result.html',{'result':'You are not safe'})
+    return render(request,'result.html')
 
 
 
