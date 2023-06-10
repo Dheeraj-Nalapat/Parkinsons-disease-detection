@@ -90,8 +90,14 @@ def svm_prediction(input_voice):
     signal = input_voice.flatten()
     sample_rate = 22050
     extracted_features = extract_features(signal, sample_rate)
-    for feature, value in extracted_features.items():
-        print(f'{feature}: {value}')
+    feature_vector = []
+    feature_order = ['MDVP:Fo(Hz)', 'MDVP:Fhi(Hz)', 'MDVP:Flo(Hz)', 'MDVP:Jitter(%)', 'MDVP:Jitter(Abs)', 'MDVP:RAP',
+                 'MDVP:PPQ', 'Jitter:DDP', 'MDVP:Shimmer', 'MDVP:Shimmer(dB)', 'MDVP:APQ', 'Shimmer:DDA','shimmer:APQ3','shimmer:APQ5',
+                 'NHR', 'HNR', 'RPDE', 'DFA', 'spread1', 'spread2', 'D2', 'PPE']
+
+    for feature in feature_order:
+        feature_vector.append(extracted_features[feature])
+    print(feature_vector)
     svmModel = pickle.load(open('static/assets/models/svm_model.pkl', 'rb'))
 
     return HttpResponse('<h1>svm prediction view</h1>')
