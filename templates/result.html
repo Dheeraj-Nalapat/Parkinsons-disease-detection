@@ -1,14 +1,22 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
     
     <title>Page Title</title>
+    <link rel='stylesheet' type='text/css' media='screen' href="{% static 'assets/css/style4.css' %}">
   
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
 </head>
 <body>
-    <h1>RESULT</h1>
-    <h2>success</h2>
+      <div class="box">
+        <img src="{% static 'assets/images/happy.png' %}">
+
+        <h1>Your Result is here!!!</h1>
+        <p>No parkinson disease is detected.</p>
+        <button><img style="width:13px;height:13px;" src="{% static 'assets/images/user.png' %}"> Go to your profile</button>
+  
+        
+    </div>
 </body>
 </html>

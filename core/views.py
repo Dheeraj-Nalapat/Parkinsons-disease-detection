@@ -15,8 +15,12 @@ import cv2
 import numpy as np
 import pickle
 
+<<<<<<< HEAD
+
+=======
 input_image = default_storage.open('post_images/V03PE01.png', 'rb')
 #input_voice
+>>>>>>> 54dc1914ea6445ae9e19164fc83da14a97374aae
 
 
 # Create your views here.
@@ -36,9 +40,19 @@ def userpage(request):
 
 
 def predict(request):
+<<<<<<< HEAD
+    try: 
+        user_profile=Uploads.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        return HttpResponse('NO PROFILE FOUND')
+    svm_prediction()
+    cnn_prediction(user_profile.image)
+    lr_prediction()
+=======
 
     cnn_prediction()
 
+>>>>>>> 54dc1914ea6445ae9e19164fc83da14a97374aae
     return render(request,'result.html')
 
 def svm_prediction():
@@ -47,8 +61,12 @@ def svm_prediction():
 
     return HttpResponse('<h1>svm prediction view</h1>')
 
+<<<<<<< HEAD
+def cnn_prediction(input_image):
+=======
 def cnn_prediction():
     global input_image
+>>>>>>> 54dc1914ea6445ae9e19164fc83da14a97374aae
     cnnModel = load_model('static/assets/models/spiral.h5')
     input_image = cv2.imread('post_images/V02PE01.png')
     resize = tf.image.resize(input_image, (256,256))
@@ -139,8 +157,8 @@ def record(request):
    
 
 def result(request):
-    user_profile = Profile.objects.get(user=request.user)
     return render(request,'result.html')
+
 def signin(request):
 
     if request.method=='POST':
