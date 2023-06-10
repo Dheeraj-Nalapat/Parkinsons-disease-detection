@@ -33,12 +33,15 @@ def userpage(request):
     
     return render(request,'userpage.html', {'userprofile':user_profile})
 
+def result2(request):
+    return render(request,'result2.html')
 
 def predict(request):
+    user_profile=Uploads.objects.filter(user=request.user)
+    input_image=user_profile.image
+    cnn_prediction(input_image)
 
-    cnn_prediction()
-
-    return render(request,'result.html')
+    return render(request,'result.html',{'user_profile':user_profile})
 
 def svm_prediction():
     
