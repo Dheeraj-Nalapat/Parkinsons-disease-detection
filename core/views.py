@@ -50,6 +50,10 @@ def predict(request):
     #lr_prediction(svmop,cnnop)
     return render(request,'result.html')
 
+
+def result(request):
+    return render(request,'result.html')
+
 def extract_features(signal, sr):
     features = {}
     
@@ -135,8 +139,13 @@ def lr_prediction(svm_output,cnn_output):
     predictions = lr_model.predict(new_data_scaled)
     print("Logistic regression:")
     print(predictions[0])
+
+    #to print final output:
+    if predictions[0]==0:
+        return redirect('/result2')
+    else:
+        return redirect('/result')
         
-    return HttpResponse('<h1>lr prediction view</h1>')
 
 
 
@@ -208,8 +217,6 @@ def record(request):
 
    
 
-def result(request):
-    return render(request,'result.html')
 def signin(request):
 
     if request.method=='POST':
