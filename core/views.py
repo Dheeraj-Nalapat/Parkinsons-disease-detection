@@ -37,17 +37,6 @@ def result2(request):
     return render(request,'result2.html')
 
 
-
-
-
-
-
-
-
-
-
-
-
 def predict(request):
     user_profile=Uploads.objects.filter(user=request.user)
     input_image=user_profile.image

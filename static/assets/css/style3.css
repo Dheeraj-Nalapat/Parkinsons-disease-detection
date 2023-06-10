@@ -20,3 +20,23 @@ body {
     width: 750px;
     height:550px;
 }
+
+.inputf {
+    padding:10px;
+    padding-right: 140px;
+    border-radius: 5px;
+}
+
+
+
+.butd {
+    padding:10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-color: white;
+    background-color: #E55807;
+    color: white;
+    font-size: 15px;
+    font-weight: 20px;
+    border-radius: 10px;
+}

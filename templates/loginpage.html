@@ -6,16 +6,17 @@
   <link rel='stylesheet' href="{% static 'assets/css/style3.css' %}">
     
 </head>
-<body>
-    <div class="row">
+<body class="col1">
+    <div class="row ">
         <div class="logi">
-        <div class="col">
+        <div class="col ">
             <img class="img1" src="{% static 'assets/images/loginside.jpg' %}">
         </div>
-        <div class="col" >
-            <h2 style="text-align: center; font-size: 30px; color:#19376D">Welcome!</h2>
-            <h2 style="text-align: center; font-size: 30px; color:#576CBC">Sign in to your Account</h2>
-            <h5 style="text-align: center; font-size: 30px; color:grey">New User? <a href="/signup" style="text-decoration: none; color: grey;">signup</a></h5>
+        <div class="col " >
+            <h2 style="text-align: left; font-size: 30px; color:#19376D">Welcome BACK :)</h2>
+            <h2 style="text-align: left; font-size: 30px; color:#576CBC">Sign In to your Account</h2>
+            <p style="text-align: left; color: grey;">Don't have an account? Create now  <a href="/singup">Signup</a></p>
+              
 
             <div>
 
@@ -32,16 +33,15 @@
             <form action="" method="POST" >
                 {% csrf_token %}
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <label for="exampleInputEmail1"   class="form-label"><b>Email</b> </label><br>
+                    <input type="email" name="email" autocomplete="off" class="form-control inputf" placeholder="enter your email address" id="exampleInputEmail1" aria-describedby="emailHelp">
                     
                   </div>
                 <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Password</label>
-                  <input type="password" name="password" class="form-control" id="exampleInputPassword1">
-                </div>
-                <h3>Forgot password</h3>
-                <button type="submit" class="btn btn-primary">Sign In</button>
+                  <label for="exampleInputPassword1" class="form-label"><b>Password</b></label><br>
+                  <input type="password" name="password" class="form-control inputf" id="exampleInputPassword1" autocomplete="new-password">
+                </div><br>
+                <button type="submit" class="btn btn-primary butd">Sign In</button>
               </form>
         </div>
         </div>
