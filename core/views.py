@@ -87,7 +87,15 @@ def extract_features(signal, sr):
     return features
 
 def svm_prediction(input_voice):
-    signal = input_voice.flatten()
+    # Assuming 'field_file' is the Django FieldFile object
+    file_path = input_voice.path
+
+    # Load the audio file using librosa
+    audio_data, sr = librosa.load(file_path)
+
+    # Convert the audio data to a numpy array
+    audio_array = np.array(audio_data)
+    signal = audio_array.flatten()
     sample_rate = 22050
     extracted_features = extract_features(signal, sample_rate)
     feature_vector = []
@@ -97,7 +105,8 @@ def svm_prediction(input_voice):
 
     for feature in feature_order:
         feature_vector.append(extracted_features[feature])
-    print(feature_vector)
+    
+    
     svmModel = pickle.load(open('static/assets/models/svm_model.pkl', 'rb'))
 
     return HttpResponse('<h1>svm prediction view</h1>')
