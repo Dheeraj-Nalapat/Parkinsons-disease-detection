@@ -6,6 +6,7 @@ from django.http import HttpResponse,JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Uploads
 import tensorflow as tf
+import torchvision.transforms as transforms
 from tensorflow.keras.models import load_model
 from sklearn.discriminant_analysis import StandardScaler
 from PIL import Image
@@ -14,8 +15,7 @@ import pandas as pd
 import cv2
 import numpy as np
 import pickle
-
-#input_voice
+import torch
 
 
 # Create your views here.
@@ -34,23 +34,39 @@ def userpage(request):
     return render(request,'userpage.html', {'userprofile':user_profile})
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 def predict(request):
-
-    cnn_prediction()
-
+    try: 
+        user_profile=Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        return HttpResponse('NO PROFILE FOUND')
+    #svm_prediction(user_profile.voice)
+    cnn_prediction(user_profile.image)
+    #lr_prediction()
     return render(request,'result.html')
 
-def svm_prediction():
+def svm_prediction(input_voice):
     
     svmModel = pickle.load(open('static/assets/models/svm_model.pkl', 'rb'))
 
     return HttpResponse('<h1>svm prediction view</h1>')
 
-def cnn_prediction():
-    global input_image
+def cnn_prediction(input_image):
     cnnModel = load_model('static/assets/models/spiral.h5')
-    input_image = cv2.imread('post_images/V02PE01.png')
-    resize = tf.image.resize(input_image, (256,256))
+    transform = transforms.Compose([transforms.PILToTensor()])
+    img_tensor = transform(input_image)
+    resize = tf.image.resize(img_tensor, (256,256))
     global cnn_output 
     prediction = cnnModel.predict(np.expand_dims(resize/255, 0))
     cnn_output = prediction[0][0]
@@ -80,6 +96,20 @@ def lr_prediction():
     print(predictions[0])
         
     return HttpResponse('<h1>lr prediction view</h1>')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def upload(request):
     if request.method == 'POST':
@@ -138,8 +168,8 @@ def record(request):
    
 
 def result(request):
+    user_profile = Profile.objects.get(user=request.user)
     return render(request,'result.html')
-
 def signin(request):
 
     if request.method=='POST':
