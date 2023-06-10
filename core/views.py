@@ -47,7 +47,11 @@ def predict(request):
     print(user_profile)
     svmop = svm_prediction(user_profile.voice)
     cnnop = cnn_prediction(user_profile.image)
-    lr_prediction(svmop,cnnop)
+    final_result=lr_prediction(svmop,cnnop)
+    if final_result==0:
+        return render(request,'result2.html',{'result':'You are safe'})
+    else:
+        return render(request,'result.html',{'result':'You are not safe'})
     return render(request,'result.html')
 
 
@@ -166,13 +170,7 @@ def lr_prediction(svm_output,cnn_output):
     predictions = lr_model.predict(new_data_scaled)
     print("Logistic regression:")
     print(predictions[0])
-
-
-    #to print final output:
-    if predictions[0]==0:
-        return redirect('/result2')
-    else:
-        return redirect('/result')
+    return predictions[0]
         
 
 
