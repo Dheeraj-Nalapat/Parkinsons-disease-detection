@@ -16,8 +16,6 @@ import numpy as np
 import pickle
 
 
-global input_image
-global input_voice
 
 
 # Create your views here.
@@ -32,14 +30,17 @@ def userpage(request):
         return HttpResponse('NO PROFILE FOUND')
 
     user_profile = Profile.objects.get(user=request.user)
-    cnn_prediction()
     
     return render(request,'userpage.html', {'userprofile':user_profile})
 
 
 def predict(request):
+    try: 
+        user_profile=Uploads.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        return HttpResponse('NO PROFILE FOUND')
     svm_prediction()
-    cnn_prediction()
+    cnn_prediction(user_profile.image)
     lr_prediction()
     return render(request,'result.html')
 
@@ -48,7 +49,7 @@ def svm_prediction():
     
     return HttpResponse('<h1>svm prediction view</h1>')
 
-def cnn_prediction():
+def cnn_prediction(input_image):
     cnnModel = load_model('static/assets/models/spiral.h5')
     resize = tf.image.resize(input_image, (256,256))
     global cnn_output 
@@ -146,8 +147,8 @@ def record(request):
    
 
 def result(request):
-    user_profile = Profile.objects.get(user=request.user)
     return render(request,'result.html')
+
 def signin(request):
 
     if request.method=='POST':
