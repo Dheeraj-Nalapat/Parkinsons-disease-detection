@@ -15,7 +15,7 @@ import cv2
 import numpy as np
 import pickle
 
-input_image = default_storage.open('static/assets/images/healthy.jpg', 'rb')
+input_image = default_storage.open('post_images/V03PE01.png', 'rb')
 #input_voice
 
 
@@ -42,6 +42,7 @@ def predict(request):
     return render(request,'result.html')
 
 def svm_prediction():
+    
     svmModel = pickle.load(open('static/assets/models/svm_model.pkl', 'rb'))
 
     return HttpResponse('<h1>svm prediction view</h1>')
@@ -49,6 +50,7 @@ def svm_prediction():
 def cnn_prediction():
     global input_image
     cnnModel = load_model('static/assets/models/spiral.h5')
+    input_image = cv2.imread('post_images/V02PE01.png')
     resize = tf.image.resize(input_image, (256,256))
     global cnn_output 
     prediction = cnnModel.predict(np.expand_dims(resize/255, 0))
