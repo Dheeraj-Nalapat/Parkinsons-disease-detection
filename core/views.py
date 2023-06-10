@@ -6,7 +6,6 @@ from django.http import HttpResponse,JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Uploads
 import tensorflow as tf
-import torchvision.transforms as transforms
 from tensorflow.keras.models import load_model
 from sklearn.discriminant_analysis import StandardScaler
 from PIL import Image
@@ -44,12 +43,14 @@ def predict(request):
 
     return render(request,'result.html',{'user_profile':user_profile})
     try: 
-        user_profile=Profile.objects.get(user=request.user)
+        user_profile=Uploads.objects.get(user=request.user)
     except Profile.DoesNotExist:
         return HttpResponse('NO PROFILE FOUND')
+    print(user_profile)
     #svm_prediction(user_profile.voice)
-    cnn_prediction(user_profile.image)
-    #lr_prediction()
+    svmop = 1
+    cnnop = cnn_prediction(user_profile.image)
+    lr_prediction(svmop,cnnop)
     return render(request,'result.html')
 
 def svm_prediction(input_voice):
@@ -60,20 +61,20 @@ def svm_prediction(input_voice):
 
 def cnn_prediction(input_image):
     cnnModel = load_model('static/assets/models/spiral.h5')
-    transform = transforms.Compose([transforms.PILToTensor()])
-    img_tensor = transform(input_image)
-    resize = tf.image.resize(img_tensor, (256,256))
-    global cnn_output 
-    prediction = cnnModel.predict(np.expand_dims(resize/255, 0))
+    img = Image.open(input_image)
+    img_resize=img.resize((256,256))
+    img_tensor = tf.convert_to_tensor(np.array(img_resize) / 255.0)
+    img_tensor = tf.expand_dims(img_tensor, 0)
+    prediction = cnnModel.predict(img_tensor)
     cnn_output = prediction[0][0]
     if cnn_output < 0.6: 
         print(f'Predicted class is Healthy')
     else:
         print(f'Predicted class is Parkinson')
 
-    return HttpResponse('<h1>cnn prediction view</h1>')
+    return cnn_output
 
-def lr_prediction(): 
+def lr_prediction(svm_output,cnn_output): 
     with open('static/assets/models/logistic_regression_model.pkl', 'rb') as file:
         lr_model = pickle.load(file)
     cnn_input_lr = '{:.5f}'.format(cnn_output)
@@ -89,6 +90,7 @@ def lr_prediction():
     scaler = StandardScaler()
     new_data_scaled = scaler.fit_transform(new_data)
     predictions = lr_model.predict(new_data_scaled)
+    print("Logistic regression:")
     print(predictions[0])
         
     return HttpResponse('<h1>lr prediction view</h1>')
