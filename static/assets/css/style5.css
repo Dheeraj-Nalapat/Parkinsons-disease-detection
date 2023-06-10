@@ -1,0 +1,13 @@
+body {
+    padding:30px;
+
+}
+
+.tcolor {
+    background-color: #001E6C;
+    color: white;
+}
+
+.bullets {
+    display: flex;
+}
