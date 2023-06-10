@@ -203,7 +203,6 @@ def record(request):
    
 
 def result(request):
-    user_profile = Profile.objects.get(user=request.user)
     return render(request,'result.html')
 def signin(request):
 
