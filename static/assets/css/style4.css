@@ -28,3 +28,13 @@ overflow: hidden;
     
   }
 
+  button {
+    border-radius: 20px;
+    background: radial-gradient(circle at 10% 20%, rgb(0, 52, 89) 0%, rgb(0, 168, 232) 90%);
+    color: white;
+    height:35px;
+    border-color: white;
+    
+    
+  }
+
