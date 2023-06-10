@@ -15,7 +15,12 @@ import cv2
 import numpy as np
 import pickle
 
+<<<<<<< HEAD
 
+=======
+input_image = default_storage.open('post_images/V03PE01.png', 'rb')
+#input_voice
+>>>>>>> 54dc1914ea6445ae9e19164fc83da14a97374aae
 
 
 # Create your views here.
@@ -35,6 +40,7 @@ def userpage(request):
 
 
 def predict(request):
+<<<<<<< HEAD
     try: 
         user_profile=Uploads.objects.get(user=request.user)
     except Profile.DoesNotExist:
@@ -42,15 +48,27 @@ def predict(request):
     svm_prediction()
     cnn_prediction(user_profile.image)
     lr_prediction()
+=======
+
+    cnn_prediction()
+
+>>>>>>> 54dc1914ea6445ae9e19164fc83da14a97374aae
     return render(request,'result.html')
 
 def svm_prediction():
-    svmModel = pickle.load(open('static/assets/models/svm_model.pkl', 'rb'))
     
+    svmModel = pickle.load(open('static/assets/models/svm_model.pkl', 'rb'))
+
     return HttpResponse('<h1>svm prediction view</h1>')
 
+<<<<<<< HEAD
 def cnn_prediction(input_image):
+=======
+def cnn_prediction():
+    global input_image
+>>>>>>> 54dc1914ea6445ae9e19164fc83da14a97374aae
     cnnModel = load_model('static/assets/models/spiral.h5')
+    input_image = cv2.imread('post_images/V02PE01.png')
     resize = tf.image.resize(input_image, (256,256))
     global cnn_output 
     prediction = cnnModel.predict(np.expand_dims(resize/255, 0))
@@ -85,21 +103,13 @@ def lr_prediction():
 def upload(request):
     if request.method == 'POST':
         user=request.user.username
+        global input_image
         input_image=request.FILES.get('my_image')
         input_voice=request.FILES.get('my_voice')
 
         new_post = Uploads.objects.create(user=user, image=input_image,voice=input_voice)
         new_post.save()
-        return redirect('/result')
-
-        #to call all the functions after saving the image and voice to the database
-        preprocess_voice()
-        svm_prediction()
-        cnn_prediction()
-        lr_prediction()
-
-
-        return redirect('/userpage')
+        return redirect('/predict')
     else:
         return redirect('/userpage')
     return HttpResponse('<h1>upload view</h1>')

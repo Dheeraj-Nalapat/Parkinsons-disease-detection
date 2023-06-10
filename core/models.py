@@ -25,7 +25,7 @@ class Uploads(models.Model):
     user=models.CharField(max_length=100)
     image=models.ImageField(upload_to='post_images')
     desc=models.TextField()
-    voice=models.FileField()
+    voice=models.FileField(upload_to='post_voice')
     created_at=models.DateTimeField(default=datetime.now)
     result=models.IntegerField(default=0)
 
