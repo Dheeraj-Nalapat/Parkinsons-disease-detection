@@ -49,13 +49,11 @@ def result2(request):
 
 
 def predict(request):
-<<<<<<< HEAD
     user_profile=Uploads.objects.filter(user=request.user)
     input_image=user_profile.image
     cnn_prediction(input_image)
 
     return render(request,'result.html',{'user_profile':user_profile})
-=======
     try: 
         user_profile=Profile.objects.get(user=request.user)
     except Profile.DoesNotExist:
@@ -64,7 +62,6 @@ def predict(request):
     cnn_prediction(user_profile.image)
     #lr_prediction()
     return render(request,'result.html')
->>>>>>> f1a785cafafc70bac70e0ef9d56d717fb0bbc4eb
 
 def svm_prediction(input_voice):
     
