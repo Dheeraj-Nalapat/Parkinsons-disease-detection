@@ -11,6 +11,8 @@ from sklearn.discriminant_analysis import StandardScaler
 from PIL import Image
 from django.core.files.storage import default_storage
 import pandas as pd
+import sounddevice as sd
+import librosa
 import cv2
 import numpy as np
 import pickle
@@ -37,24 +39,59 @@ def result2(request):
 
 
 def predict(request):
-    user_profile=Uploads.objects.filter(user=request.user)
-    input_image=user_profile.image
-    cnn_prediction(input_image)
-
-    return render(request,'result.html',{'user_profile':user_profile})
     try: 
         user_profile=Uploads.objects.get(user=request.user)
     except Profile.DoesNotExist:
         return HttpResponse('NO PROFILE FOUND')
     print(user_profile)
-    #svm_prediction(user_profile.voice)
-    svmop = 1
-    cnnop = cnn_prediction(user_profile.image)
-    lr_prediction(svmop,cnnop)
+    svm_prediction(user_profile.voice)
+    #svmop = 1
+    #cnnop = cnn_prediction(user_profile.image)
+    #lr_prediction(svmop,cnnop)
     return render(request,'result.html')
 
-def svm_prediction(input_voice):
+def extract_features(signal, sr):
+    features = {}
     
+    # Fundamental frequency features
+    pitches = librosa.yin(signal, fmin=50, fmax=300, sr=sr)
+    features['MDVP:Fo(Hz)'] = pitches.mean()
+    features['MDVP:Fhi(Hz)'] = pitches.max()
+    features['MDVP:Flo(Hz)'] = pitches.min()
+    
+    # Jitter features
+    features['MDVP:Jitter(%)'] = np.sqrt(np.mean(signal ** 2))
+    features['MDVP:Jitter(Abs)'] = np.mean(np.abs(signal))
+    features['MDVP:RAP'] = np.sqrt(np.mean(signal ** 2))
+    features['MDVP:PPQ'] = np.sqrt(np.mean(signal ** 2))
+    features['Jitter:DDP'] = features['MDVP:RAP'] * 3
+    
+    # Shimmer features
+    features['MDVP:Shimmer'] = np.sqrt(np.mean(signal ** 2))
+    features['MDVP:Shimmer(dB)'] = np.sqrt(np.mean(signal ** 2))
+    features['MDVP:APQ'] = np.sqrt(np.mean(signal ** 2))
+    features['Shimmer:DDA'] = features['MDVP:APQ'] * 3
+    features['shimmer:APQ3'] = np.sqrt(np.mean(signal ** 2))
+    features['shimmer:APQ5'] = np.sqrt(np.mean(signal ** 2))
+
+    # Other features
+    features['NHR'] = np.sqrt(np.mean(signal ** 2))
+    features['HNR'] = np.sqrt(np.mean(signal ** 2))
+    features['RPDE'] = np.sqrt(np.mean(signal ** 2))
+    features['DFA'] = np.sqrt(np.mean(signal ** 2))
+    features['spread1'] = np.sqrt(np.mean(signal ** 2))
+    features['spread2'] = np.sqrt(np.mean(signal ** 2))
+    features['D2'] = np.sqrt(np.mean(signal ** 2))
+    features['PPE'] = np.sqrt(np.mean(signal ** 2))
+    
+    return features
+
+def svm_prediction(input_voice):
+    signal = input_voice.flatten()
+    sample_rate = 22050
+    extracted_features = extract_features(signal, sample_rate)
+    for feature, value in extracted_features.items():
+        print(f'{feature}: {value}')
     svmModel = pickle.load(open('static/assets/models/svm_model.pkl', 'rb'))
 
     return HttpResponse('<h1>svm prediction view</h1>')
