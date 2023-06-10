@@ -17,6 +17,7 @@ import cv2
 import numpy as np
 import pickle
 import torch
+import csv
 
 
 # Create your views here.
@@ -44,10 +45,9 @@ def predict(request):
     except Profile.DoesNotExist:
         return HttpResponse('NO PROFILE FOUND')
     print(user_profile)
-    svm_prediction(user_profile.voice)
-    #svmop = 1
-    #cnnop = cnn_prediction(user_profile.image)
-    #lr_prediction(svmop,cnnop)
+    svmop = svm_prediction(user_profile.voice)
+    cnnop = cnn_prediction(user_profile.image)
+    lr_prediction(svmop,cnnop)
     return render(request,'result.html')
 
 def extract_features(signal, sr):
@@ -106,10 +106,28 @@ def svm_prediction(input_voice):
     for feature in feature_order:
         feature_vector.append(extracted_features[feature])
     
-    
-    svmModel = pickle.load(open('static/assets/models/svm_model.pkl', 'rb'))
+    X_test = []
+    with open('static/assets/csvfiles/svminput.csv', 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            row_float = [float(element) for element in row]
+            X_test.append(row_float)
+    scaler = StandardScaler()
+    scaler.fit(X_test)
 
-    return HttpResponse('<h1>svm prediction view</h1>')
+    input_data_as_numpy_array = np.asarray(feature_vector)
+
+    # reshape the numpy array
+    input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
+
+    # standardize the data
+    std_data = scaler.transform(input_data_reshaped)
+    
+    svm_Model = pickle.load(open('static/assets/models/svm_model.pkl', 'rb'))
+
+    prediction = svm_Model.predict(std_data)
+
+    return prediction[0]
 
 def cnn_prediction(input_image):
     cnnModel = load_model('static/assets/models/spiral.h5')
@@ -144,7 +162,10 @@ def lr_prediction(svm_output,cnn_output):
     predictions = lr_model.predict(new_data_scaled)
     print("Logistic regression:")
     print(predictions[0])
-        
+    if predictions[0]==0:
+        return redirect('/result')
+    else:
+        return redirect('/result2')    
     return HttpResponse('<h1>lr prediction view</h1>')
 
 
