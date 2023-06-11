@@ -41,6 +41,26 @@ def result2(request):
 def result(request):
     return render(request,'result.html')
 
+def upload(request):
+    if request.method == 'POST':
+        user=request.user.username
+        global input_image
+
+        input_image=request.FILES.get('my_image')
+        input_voice=request.FILES.get('my_voice')
+        print(input_image)
+        print(input_voice)
+
+        if input_image == None or input_voice == None:
+            messages.info(request,'upload files before submitting!!!')
+            return redirect('upload')
+        else:
+            new_post = Uploads.objects.create(user=user, image=input_image,voice=input_voice)
+            new_post.save()
+            return redirect('/predict')
+    else:
+        return redirect('/userpage')
+
 
 def extract_features(signal, sr):
     features = {}
@@ -159,18 +179,18 @@ def lr_prediction(svm_output,cnn_output):
 
 def predict(request):
     try: 
-        user_profile=Uploads.objects.get(user=request.user)
+        user_profile=Uploads.objects.order_by('-created_at').first()
     except Profile.DoesNotExist:
         return HttpResponse('NO PROFILE FOUND')
     print(user_profile)
     svmop = svm_prediction(user_profile.voice)
     cnnop = cnn_prediction(user_profile.image)
     final_result=lr_prediction(svmop,cnnop)
-    if final_result==0:
-        return render(request,'result2.html',{'result':'You are safe'})
-    else:
-        return render(request,'result.html',{'result':'You are not safe'})
-    return render(request,'result.html')
+    print(final_result)
+    if final_result == 0:
+        return render(request,'result.html')
+    elif final_result == 1:
+        return render(request,'result2.html')
 
 
 
@@ -184,19 +204,7 @@ def predict(request):
 
 
 
-def upload(request):
-    if request.method == 'POST':
-        user=request.user.username
-        global input_image
-        input_image=request.FILES.get('my_image')
-        input_voice=request.FILES.get('my_voice')
 
-        new_post = Uploads.objects.create(user=user, image=input_image,voice=input_voice)
-        new_post.save()
-        return redirect('/predict')
-    else:
-        return redirect('/userpage')
-    return HttpResponse('<h1>upload view</h1>')
 
 def signup(request):
     if request.method == 'POST':
