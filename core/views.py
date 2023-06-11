@@ -186,11 +186,12 @@ def predict(request):
     svmop = svm_prediction(user_profile.voice)
     cnnop = cnn_prediction(user_profile.image)
     final_result=lr_prediction(svmop,cnnop)
-    print(final_result)
-    if final_result == 0:
-        return render(request,'result.html')
-    elif final_result == 1:
-        return render(request,'result2.html')
+    print("final result:"+str(final_result))
+    if final_result==0:
+        return render(request,'result.html',{'result':'You are safe'})
+    elif final_result==1:
+        return render(request,'result2.html',{'result':'You are not safe'})
+    #return render(request,'result.html')
 
 
 
