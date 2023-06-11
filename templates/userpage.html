@@ -174,6 +174,18 @@
     <section class="mt-2">
     <h3 class="step1"><b>STEP 2: </b>Upload corresponding files to detect</h3>
     <br><br>
+    <div>
+
+      <style>
+          h5{
+              color: black;
+          }
+      </style>
+      {% for message in messages %}
+      <h5 style="text-align: center; color: brown;">{{message}}</h5><br>
+      {% endfor %}
+  </div>
+
     <form action="upload" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="cols">
