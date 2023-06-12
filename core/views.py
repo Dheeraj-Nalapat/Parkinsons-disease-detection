@@ -113,13 +113,12 @@ def svm_prediction(input_voice):
     feature_vector = []
     feature_order = ['MDVP:Fo(Hz)', 'MDVP:Fhi(Hz)', 'MDVP:Flo(Hz)', 'MDVP:Jitter(%)', 'MDVP:Jitter(Abs)', 'MDVP:RAP',
                  'MDVP:PPQ', 'Jitter:DDP', 'MDVP:Shimmer', 'MDVP:Shimmer(dB)', 'MDVP:APQ', 'Shimmer:DDA','shimmer:APQ3','shimmer:APQ5',
-                 'NHR', 'HNR', 'RPDE', 'DFA', 'spread1', 'spread2', 'D2', 'PPE']
+                 'NHR', 'HNR', 'RPDE', 'DFA', 'D2', 'PPE']
 
     for feature in feature_order:
         feature_vector.append(extracted_features[feature])
-    
     X_test = []
-    with open('static/assets/csvfiles/svminput.csv', 'r') as file:
+    with open('static/assets/csvfiles/svminput2.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
             row_float = [float(element) for element in row]
@@ -135,10 +134,11 @@ def svm_prediction(input_voice):
     # standardize the data
     std_data = scaler.transform(input_data_reshaped)
     
-    svm_Model = pickle.load(open('static/assets/models/svm_model.pkl', 'rb'))
+    svm_Model = pickle.load(open('static/assets/models/SVM_model2.pkl', 'rb'))
 
     prediction = svm_Model.predict(std_data)
-
+    print("SVM_model")
+    print(prediction[0])
     return prediction[0]
 
 def cnn_prediction(input_image):
